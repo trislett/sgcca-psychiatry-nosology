@@ -1,4 +1,4 @@
-The package sparsemodels (based on RGCCA R packaged) is used to calculate the multi-view sparse generalized (SGCCA) model.
+The package sparsemodels (which wraps functions from the [RGCCA R packaged](https://github.com/rgcca-factory/RGCCA)) is used to calculate the multi-view sparse generalized (SGCCA) model.
 
 The details and source code for sparsemodels are available here: https://github.com/trislett/sparsemodels.
 
