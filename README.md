@@ -6,3 +6,4 @@ The sparsemodels package has been tested on macos and arch linux. Install using:
 
 `pip install -U git+https://github.com/trislett/sparsemodels`
 
+The annotated script for the SGCCA model is run_sgcca.py.
