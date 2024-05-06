@@ -7,7 +7,7 @@ The sparsemodels package has been tested on M1 Mac (Sonoma 14.4.1), Ubuntu 22.04
 
 Install sparsemodels using:
 
-`pip install -U git+https://github.com/trislett/sparsemodels`
+`pip install git+https://github.com/trislett/sparsemodels`
 
 Please consult the [setup.py](https://github.com/trislett/sparsemodels/blob/main/setup.py) for a list of dependencies. Note, the bleeding edge of numpy may cause issues
 with building the python package. If you experience this, please downgrade to numpy=1.24.3.
