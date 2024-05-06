@@ -1,14 +1,7 @@
 #!/usr/bin/env python
 
 import numpy as np
-import pandas as pd
-from sklearn.preprocessing import scale
-from sklearn.linear_model import TheilSenRegressor
-from joblib import Parallel, delayed
-from tfce_mediation.pyfunc import dummy_code
-from sparsemodels.functions import generate_seeds, parallel_sgcca, pickle_save_model, pickle_load_model
-from sparsemodels.functions import plot_ncomponents, plot_parameter_selection, plot_prediction_bootstraps
-
+from sparsemodels.functions import parallel_sgcca
 
 # Set random seed for reproducibility
 np.random.seed(42)
