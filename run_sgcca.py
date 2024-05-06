@@ -1,43 +1,18 @@
 #!/usr/bin/env python
 
-import os
-import sys
-import pickle
-import glob
-import itertools
-import matplotlib
 import numpy as np
-import nibabel as nib
 import pandas as pd
-from random import choices
-
-#from pyggseg.functions import ggseg_plot_glasser_bluered, convert_rywlbb_gradient
-from PyCerebralPlots.functions import create_rywlbb_gradient_cmap
-from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-
-from scipy.stats import pearsonr, boxcox, norm
-from sklearn.preprocessing import scale
-from sklearn.metrics import r2_score, mean_squared_error, explained_variance_score
 from sklearn.preprocessing import scale
 from sklearn.linear_model import TheilSenRegressor
-from joblib import Parallel, delayed, wrap_non_picklable_objects
-from tfce_mediation.pyfunc import stack_ones, dummy_code
-
-from sparsemodels.functions import generate_seeds, sgcca_rwrapper, parallel_sgcca, pickle_save_model, pickle_load_model
-from sparsemodels.cynumstats import cy_lin_lstsqr_mat
-
-from sparsemodels.functions import plot_ncomponents, plot_parameter_selection, plot_prediction_bootstraps, plot_scatter_histogram, plot_pairscores, plot_permuted_model
+from joblib import Parallel, delayed
+from tfce_mediation.pyfunc import dummy_code
+from sparsemodels.functions import generate_seeds, parallel_sgcca, pickle_save_model, pickle_load_model
+from sparsemodels.functions import plot_ncomponents, plot_parameter_selection, plot_prediction_bootstraps
 
 def neglog_transformation(x):
 	return(np.sign(x)*np.log10(np.abs(x)+1))
 
 def _theilsenregression(t, X, y, n_jobs = 12,  seed = None):
-	"""
-	Selection of best number of components using permutation testing.
-	"""
 	if seed is None:
 		np.random.seed(np.random.randint(4294967295))
 	else:
@@ -62,7 +37,6 @@ SITES = np.array(pdCSV.Site)
 uSITES = np.unique(SITES)
 SEX = np.array(pdCSV.Sex)
 AGE = np.array(pdCSV.Age)
-Diagnosis = np.array(pdCSV.Diagnosis)
 
 # dummpy code covariates
 covariates = np.column_stack((dummy_code(SEX, iscontinous=False, demean=True), dummy_code(SITES, iscontinous=False, demean=True)))
@@ -145,14 +119,12 @@ model.run_parallel_parameterselection(views = views, verbose=True, n_perm_per_bl
 plot_parameter_selection(model)
 
 # For selecting the optimal number of components a 50 component SGCCA model was generated with the optimal sparsity and plotted to find the approximate 'elbow' in
-# in the cululative variance explained 
+# in the cululative variance explained.
 plot_ncomponents(model, views = views,
 								max_n_comp = 50,
-								l1_sparsity = model.parameterselection_bestpenalties_,
-								labels = labels,
-								png_basename = m_name)
+								l1_sparsity = model.parameterselection_bestpenalties_)
 
-# With optimal sparsity and number of component selected, the training model is now calculated
+# With optimal sparsity and number of component selected, the training model is now calculated.
 model.fit_model(views, n_components = 10, l1_sparsity = model.parameterselection_bestpenalties_)
 
 # After the initial model is created, stability selection. Stability selection subsamples 50% of the the training data randomly and the model is re-fit.
@@ -170,20 +142,20 @@ model.run_parallel_permute_model(metric = 'AVE_inner')
 # significance of the model and their coefficients are determined by bootstrapping.
 model.bootstrap_prediction_model(response_index = 0, n_bootstraps = 10000)
 
-# plot the SGCCA-regression model 
+# Plot the SGCCA-regression model 
 plot_prediction_bootstraps(model, png_basename = "prediction_model")
 
-# calculate the significance of each model loading (correlation between component score and each item in the respective data view) using bootstraping
+# Calculate the significance of each model loading (correlation between component score and each item in the respective data view) using bootstraping.
 model.bootstrap_model_loadings()
 
-# save the model
+# Save the model.
 pickle_save_model(model, "model.pkl")
 
-# import the view data for the stratify sample (similar to lines 58-127). 
+# Import the view data for the stratify sample (similar to lines 58-127). 
 views_data_stratify = pickle_load_model("views_data_stratify.pkl")
-# calculate the component scores for stratify. After which the canonical correlation among the scores, and SGCCA-regression model can be calculated. 
-scores_stratify = model.model_obj_.transform(model.views_)
+# Calculate the component scores for stratify. After which the canonical correlation among the scores, and SGCCA-regression model can be calculated. 
+scores_stratify = model.model_obj_.transform(views_data_stratify)
 
-# import the view data for the imagen sample at all timepoints (similar to lines 58-127). After which the canonical correlation among the scores, and SGCCA-regression model can be calculated. 
-views_data_stratify = pickle_load_model("views_data_imagen_longitudinal.pkl")
-scores_stratify = model.model_obj_.transform(model.views_)
+# Import the view data for the imagen sample at all timepoints (similar to lines 58-127). After which the canonical correlation among the scores, and SGCCA-regression model can be calculated. 
+views_data_imagen_long = pickle_load_model("views_data_imagen_longitudinal.pkl")
+scores_imagen_long = model.model_obj_.transform(views_data_imagen_long)
