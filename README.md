@@ -16,4 +16,4 @@ with building the python package. If you experience this, please downgrade to nu
 
 The annotated script of commands for calculting the SGCCA model are in [run_sgcca.py](https://github.com/trislett/sgcca-psychiatry-nosology/blob/main/run_sgcca.py).
 
-An example using random data is availible in [simulate_sgcca.py](https://github.com/trislett/sgcca-psychiatry-nosology/blob/main/simulate_sgcca.py).
+An example using random data is available in [simulate_sgcca.py](https://github.com/trislett/sgcca-psychiatry-nosology/blob/main/simulate_sgcca.py).
