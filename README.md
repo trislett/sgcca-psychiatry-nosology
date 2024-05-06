@@ -10,6 +10,6 @@ Install sparsemodels using:
 `pip install -U git+https://github.com/trislett/sparsemodels`
 
 Please consult https://github.com/trislett/sparsemodels/setup.py for dependencies. Note, the bleeding edge of numpy may cause issues
-with building the python package. If you experience this please downgrade numpy=1.23.4.
+with building the python package. If you experience this please downgrade to numpy=1.23.4.
 
 The annotated script of commands for calculting the SGCCA model are in run_sgcca.py.
