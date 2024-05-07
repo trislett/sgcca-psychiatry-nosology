@@ -33,17 +33,19 @@ model = parallel_sgcca(n_jobs = 12, scheme = "factorial", n_permutations = 1000,
 # The data will also  be split with randomly split 70% of data with designated as the training sample (for model fitting) with 30% of the sample
 model.create_nfold(group=SITES, n_fold=10, holdout=0.3)
 
-# With optimal sparsity and number of component selected, the training model is now calculated.
+# Fit a model with three components and a l1 sparsity of 0.3.
 model.fit_model(views, n_components = 3, l1_sparsity = 0.3)
 
-# model variance explained
-
+# Print of the model variance explained
+# AVE_inner_ -> variance explained by canonical correlations
 print(model.model_obj_.AVE_inner_)
 # array([0.00244925, 0.00217574, 0.00169972])
 
+# AVE_outer_ -> variance explained by components
 print(model.model_obj_.AVE_outer_)
 # array([0.10163285, 0.1011095 , 0.10067549])
 
+# AVE_views_ -> variance explained by components from each data-view
 print(model.model_obj_.AVE_views_)
 # array([[0.10176376, 0.1014266 , 0.10118082],
 #        [0.10169056, 0.10005755, 0.10068283],
