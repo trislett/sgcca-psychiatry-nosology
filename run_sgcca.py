@@ -151,11 +151,11 @@ model.bootstrap_model_loadings()
 # Save the model.
 pickle_save_model(model, "model.pkl")
 
-# Import the view data for the stratify sample (similar to lines 58-127). 
+# Import the view data for the stratify sample (similar to lines 46-104). 
 views_data_stratify = pickle_load_model("views_data_stratify.pkl")
 # Calculate the component scores for stratify. After which the canonical correlation among the scores, and SGCCA-regression model can be calculated. 
 scores_stratify = model.model_obj_.transform(views_data_stratify)
 
-# Import the view data for the imagen sample at all timepoints (similar to lines 58-127). After which the canonical correlation among the scores, and SGCCA-regression model can be calculated. 
+# Import the view data for the imagen sample at all timepoints (similar to lines 46-104). After which the canonical correlation among the scores, and SGCCA-regression model can be calculated. 
 views_data_imagen_long = pickle_load_model("views_data_imagen_longitudinal.pkl")
 scores_imagen_long = model.model_obj_.transform(views_data_imagen_long)
