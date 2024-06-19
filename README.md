@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/796674797.svg)](https://zenodo.org/doi/10.5281/zenodo.12167725)
+
 The package sparsemodels (which wraps functions and adds parallel computing from the [RGCCA R packaged](https://github.com/rgcca-factory/RGCCA)) is used to calculate the multi-view sparse generalized (SGCCA) model.
 
 The details and source code for sparsemodels are available here: https://github.com/trislett/sparsemodels.
