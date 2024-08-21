@@ -11,9 +11,13 @@ The sparsemodels package has been tested on M1 Mac (Sonoma 14.4.1), Ubuntu 22.04
 Install using conda
 
 `git clone https://github.com/trislett/sgcca-psychiatry-nosology`
+
 `cd sgcca-psychiatry-nosology`
+
 `conda env create -f environment.yml`
+
 `conda activate sparsemodel_env`
+
 `pip install git+https://github.com/trislett/sparsemodels`
 
 Alternatively, just install sparsemodels using the python environment of your choice:
