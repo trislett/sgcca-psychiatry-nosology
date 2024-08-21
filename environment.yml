@@ -1,0 +1,12 @@
+name: sparsemodel_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python==3.9
+  - numpy==1.25.2
+  - pip
+  - pip:
+    - cython
+    - rpy2==3.5.12
+    - tqdm
