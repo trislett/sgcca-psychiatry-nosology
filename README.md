@@ -22,9 +22,6 @@ Alternatively, just install sparsemodels using the python environment of your ch
 
 Please consult the [setup.py](https://github.com/trislett/sparsemodels/blob/main/setup.py) for a list of dependencies. 
 
-For reference, [current_conda_build](https://github.com/trislett/sgcca-psychiatry-nosology/blob/main/current_conda_build) lists a known working python environment. Note, the bleeding edge of numpy may cause issues
-with building the python package. If you experience this, please downgrade to numpy=1.25.2.
-
 The annotated script of commands for calculting the SGCCA model are in [run_sgcca.py](https://github.com/trislett/sgcca-psychiatry-nosology/blob/main/run_sgcca.py).
 
 An example using random data is available in [simulate_sgcca.py](https://github.com/trislett/sgcca-psychiatry-nosology/blob/main/simulate_sgcca.py).
