@@ -6,7 +6,7 @@ The details and source code for sparsemodels are available here: https://github.
 
 Further information about functions are available using the python help. E.g., help(parallel_sgcca).
 
-The sparsemodels package has been tested on M1 Mac (Sonoma 14.4.1), Ubuntu 22.04, and using Arch linux. 
+The sparsemodels package has been tested on M1 Mac (Sonoma 14.4.1), Ubuntu 22.04, Ubuntu 24.04 and using Arch linux. 
 
 Lazy install using Conda:
 
@@ -15,6 +15,10 @@ Lazy install using Conda:
 	conda env create -f environment.yml
 	conda activate sparsemodels_env
 	pip install git+https://github.com/trislett/sparsemodels
+
+Test if sparse models is working:
+
+	./simulate_sgcca.py
 
 Alternatively, just install sparsemodels using the python environment of your choice:
 
