@@ -5,7 +5,6 @@ import pandas as pd
 from sklearn.preprocessing import scale
 from sklearn.linear_model import TheilSenRegressor
 from joblib import Parallel, delayed
-from tfce_mediation.pyfunc import dummy_code
 from sparsemodels.functions import generate_seeds, parallel_sgcca, pickle_save_model, pickle_load_model
 from sparsemodels.functions import plot_ncomponents, plot_parameter_selection, plot_prediction_bootstraps
 
@@ -28,6 +27,40 @@ def theilsenregression_reduce_data(X, y, n_jobs = 12):
 	yresid = Parallel(n_jobs = n_jobs, backend='multiprocessing')(delayed(_theilsenregression)(t, X = X, y  = y[:,t], n_jobs = n_jobs, seed = seeds[t]) for t in range(ntargets))
 	yresid = np.array(yresid).T
 	return(yresid)
+
+
+def dummy_code(variable, iscontinous = False, demean = True):
+	"""
+	Dummy codes a variable
+	
+	Parameters
+	----------
+	variable : array
+		1D array variable of any type 
+
+	Returns
+	---------
+	dummy_vars : array
+		dummy coded array of shape [(# subjects), (unique variables - 1)]
+	
+	"""
+	if iscontinous:
+		if demean:
+			dummy_vars = variable - np.mean(variable,0)
+		else:
+			dummy_vars = variable
+	else:
+		unique_vars = np.unique(variable)
+		dummy_vars = []
+		for var in unique_vars:
+			temp_var = np.zeros((len(variable)))
+			temp_var[variable == var] = 1
+			dummy_vars.append(temp_var)
+		dummy_vars = np.array(dummy_vars)[1:] # remove the first column as reference variable
+		dummy_vars = np.squeeze(dummy_vars).astype(int).T
+		if demean:
+			dummy_vars = dummy_vars - np.mean(dummy_vars,0)
+	return(dummy_vars)
 
 # import demographics data
 CSV = 'subset_IMAGEN-FU3_SexAgeSite_checked.csv'
@@ -151,11 +184,11 @@ model.bootstrap_model_loadings()
 # Save the model.
 pickle_save_model(model, "model.pkl")
 
-# Import the view data for the stratify sample (similar to lines 46-104). 
+# Import the view data for the stratify sample (similar to lines 79-134). 
 views_data_stratify = pickle_load_model("views_data_stratify.pkl")
 # Calculate the component scores for stratify. After which the canonical correlation among the scores, and SGCCA-regression model can be calculated. 
 scores_stratify = model.model_obj_.transform(views_data_stratify)
 
-# Import the view data for the imagen sample at all timepoints (similar to lines 46-104). After which the canonical correlation among the scores, and SGCCA-regression model can be calculated. 
+# Import the view data for the imagen sample at all timepoints (similar to lines 79-134). After which the canonical correlation among the scores, and SGCCA-regression model can be calculated. 
 views_data_imagen_long = pickle_load_model("views_data_imagen_longitudinal.pkl")
 scores_imagen_long = model.model_obj_.transform(views_data_imagen_long)
