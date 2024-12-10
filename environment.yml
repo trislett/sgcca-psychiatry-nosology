@@ -4,6 +4,7 @@ channels:
   - defaults
 dependencies:
   - python==3.9
+  - setuptools<65
   - numpy==1.25.2
   - libxcrypt
   - pip
